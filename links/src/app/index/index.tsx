@@ -1,20 +1,26 @@
 import { Image, View, TouchableOpacity, FlatList, Modal, Text } from "react-native"
+import { router } from "expo-router"
 import { MaterialIcons } from "@expo/vector-icons"
 import { styles } from "./styles"
 import { colors } from "@/styles/colors"
 import { Categories } from "@/components/categories"
 import { Link } from "@/components/link"
+import { Option } from "@/components/option"
+import { useState } from "react"
+import { categories } from "@/utils/categories"
 
 export default function Index() {
+  const [category, setCategory] = useState<String>(categories[0].name)
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={require("@/assets/logo.png")} style={styles.logo} />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.navigate("/add")}>
           <MaterialIcons name="add" size={32} color={colors.green[300]} />
         </TouchableOpacity>
       </View>
-      <Categories />
+      <Categories onChange={setCategory} selected={category} />
       <FlatList 
         data={["1", "2", "3", "4", "5"]}
         keyExtractor={(item) => item}
@@ -29,13 +35,17 @@ export default function Index() {
         <View style={styles.modal}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalCategory}>Curso</Text>
+              <Text style={styles.modalCategory}>Curse</Text>
               <TouchableOpacity>
                 <MaterialIcons name="close" size={20} color={colors.gray[400]} />
               </TouchableOpacity>
             </View>
             <Text style={styles.modalLinkName}>Rocketseat</Text>
             <Text style={styles.modalUrl}>https://www.rocketseat.com.br</Text>
+            <View style={styles.modalFooter}>
+              <Option name="Delete" icon="delete" variant="secundary"/>
+              <Option name="Open" icon="language" />
+            </View>
           </View>
         </View>
       </Modal>
